@@ -1,173 +1,125 @@
-# MAX STUDIO
+<div align="center">
+  <img src="assets/banner.png" alt="MAX STUDIO" width="760" />
 
-MAX STUDIO is a modern Android music player focused on a clean listening experience, local music playback, YouTube music integration, customization, and direct release updates.
+  <h1>MAX STUDIO</h1>
+  <p><strong>A customizable Android music experience with modern playback, synchronized lyrics, and a choice of visual styles.</strong></p>
 
-> Current platform: **Android**  
-> Package name: `com.max.music`  
-> Current release: **v1.4.9**
+  <p>
+    <a href="https://github.com/kryvexo/MAX-STUDIO-/releases"><img src="https://img.shields.io/badge/version-1.5.16-6750A4?style=for-the-badge" alt="Version 1.5.16" /></a>
+    <img src="https://img.shields.io/badge/platform-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android" />
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0-2F6F9F?style=for-the-badge" alt="GPL-3.0 license" /></a>
+  </p>
 
-## Features
+  <p>
+    <a href="https://github.com/kryvexo/MAX-STUDIO-/releases">Releases</a> ·
+    <a href="https://github.com/kryvexo/MAX-STUDIO-/issues">Issues & feature requests</a> ·
+    <a href="PRIVACY_POLICY.md">Privacy policy</a>
+  </p>
+</div>
 
-- Local music library and audio playback
-- YouTube music search and playback integration
-- Background playback and media controls
-- Playlists, queue management, radio and recommendations
-- Lyrics and music metadata support
-- Multiple app icon choices, including the original Sabrina Carpenter and Sadie Sink icons
-- Listen Together room support
-- Google/YouTube account login
-- Dark theme and customizable player experience
-- Built-in release update checker
-- Direct APK download and installation from the app
-- What's New section with release notes and fallback notes when the release asset is unavailable
+---
 
-## Download
+## About
 
-Download the latest APK from the [GitHub Releases](https://github.com/kryvexo/MAX-STUDIO-/releases) page.
+MAX STUDIO is an open-source Android music app focused on flexible playback and a personal listening experience. It brings together online music discovery, local playback, lyrics, and extensive interface customization in one app.
 
-For the direct update system to work, each GitHub release should include:
+The app's application ID is `com.max.music`. The current source version is **1.5.16** and supports **Android 8.0 (API 26) and newer**.
 
-- The release APK
-- A `changelog.json` file
-- Optional `SHA256SUMS.txt` checksum file
+> MAX STUDIO is an independent project. It is not affiliated with YouTube, Google, Spotify, Apple, or other third-party services. It does not host music or video files; all third-party content and trademarks remain the property of their respective owners.
 
-Example release assets:
+## Screenshots
 
-```text
-MAX-STUDIO-v1.4.9.apk
-changelog.json
-SHA256SUMS.txt
-```
+| Home | Material 3 player | Liquid Glass player |
+|:---:|:---:|:---:|
+| <img src="Screenshots/Home.png" alt="MAX STUDIO home screen" width="220" /> | <img src="Screenshots/Material%20you%20music%20page.png" alt="Material 3 music player" width="220" /> | <img src="Screenshots/Liquid%20Glass%20Apple%20Inspired.png" alt="Liquid Glass player" width="220" /> |
 
-## Installing the APK
+| Synchronized lyrics | Search & explore | Liquid Glass while scrolling |
+|:---:|:---:|:---:|
+| <img src="Screenshots/lyrics.png" alt="Synchronized lyrics" width="220" /> | <img src="Screenshots/search%20page.png" alt="Search and explore" width="220" /> | <img src="Screenshots/Liquid%20Glass%20Apple%20Inspired%20%28While%20Scrolling%29.png" alt="Compact Liquid Glass navigation while scrolling" width="220" /> |
 
-1. Download the APK from GitHub Releases.
-2. Open the downloaded APK on your Android device.
-3. If Android asks for permission, enable **Allow from this source** for the browser or file manager.
-4. Install and launch MAX STUDIO.
+## Highlights
 
-The app may ask for the Android install-permission setting when installing an update from inside the app. This is required by Android for APK installation outside the Play Store.
+- **Flexible playback:** background playback, queue controls, crossfade, and support for local music.
+- **Offline listening:** manage supported downloads from the app's download interface.
+- **Lyrics:** synchronized lyrics, multiple display styles, and optional translation-provider integrations.
+- **Discovery:** browse music and use Echo Find for music recognition.
+- **Music Flow:** move between navigation tabs with horizontal swipes, including the compact iOS-style floating tab bar while scrolling.
+- **Personalization:** Material 3 styling, Liquid Glass effects, player layouts, themes, and custom launcher icons.
+- **Connected features:** optional Spotify and other third-party integrations; availability depends on service configuration and region.
+- **About download stats:** view the cumulative download count for public APK assets on the MAX STUDIO GitHub Releases page. This is a download metric, **not** a count of unique or currently active users.
 
-## Release changelog format
+Some integrations require an account, API key, or network access. Availability and behavior can change when third-party services change.
 
-Create a `changelog.json` file for every release:
+## Download and install
 
-```json
-{
-  "description": "MAX STUDIO v1.4.9 — Android 16/Xiaomi update installer crash fixed",
-  "changelog": [
-    "Fixed APK installation crash on Xiaomi and Android 16",
-    "Restored REQUEST_INSTALL_PACKAGES in the release manifest",
-    "Added a safe permission-check fallback before installation"
-  ]
-}
-```
+1. Open the [GitHub Releases page](https://github.com/kryvexo/MAX-STUDIO-/releases).
+2. Download the latest published Android APK.
+3. Open the APK on your device and follow Android's installation prompts. Android may ask you to allow your browser or file manager to install apps.
 
-The app reads this file from the matching GitHub release tag. If the file cannot be downloaded, MAX STUDIO shows built-in fallback release notes instead of leaving the What's New section empty.
+To update an existing installation, Android requires the same package ID and signing certificate. If the APK is signed with a different key, Android may refuse the update. Back up important app data before uninstalling an existing build.
 
-## Building from source
+## Build from source
 
 ### Requirements
 
-- Android Studio or a compatible Gradle environment
-- JDK 17 or newer
-- Android SDK with the required platform and build tools
-- Internet connection for Gradle dependencies
+- Android Studio or Android SDK command-line tools
+- **JDK 21**
+- Android SDK platform **API 37** and the project-required build tools
+- Git
 
-### Build commands
-
-Clone the repository and enter the project directory:
+### Get the source
 
 ```bash
 git clone https://github.com/kryvexo/MAX-STUDIO-.git
 cd MAX-STUDIO-
+cp local.properties.template local.properties
 ```
 
-Build the universal FOSS release APK:
+Edit `local.properties` and set your local Android SDK path:
+
+```properties
+sdk.dir=/path/to/your/Android/Sdk
+```
+
+On Windows, use `gradlew.bat` in place of `./gradlew`.
+
+### Build variants
+
+The project provides FOSS and GMS variants. FOSS builds omit Google Play Services-dependent functionality such as Cast; GMS builds include Google-dependent integrations.
 
 ```bash
+# Universal FOSS debug APK
+./gradlew assembleUniversalFossDebug
+
+# Universal GMS debug APK
+./gradlew assembleUniversalGmsDebug
+
+# FOSS unit tests
+./gradlew :app:testUniversalFossDebugUnitTest
+```
+
+Release builds require your own signing key. Configure it through environment variables and never commit the keystore or passwords:
+
+```bash
+export KEYSTORE_PATH=/path/to/release-key.jks
+export STORE_PASSWORD=your_store_password
+export KEY_ALIAS=your_key_alias
+export KEY_PASSWORD=your_key_password
 ./gradlew assembleUniversalFossRelease
 ```
 
-The APK is generated at:
+Build outputs are written under `app/build/outputs/apk/`.
 
-```text
-app/build/outputs/apk/universalFoss/release/app-universal-foss-release.apk
-```
+## Privacy
 
-For a debug build:
+Review [PRIVACY_POLICY.md](PRIVACY_POLICY.md) for the project's stated data practices and third-party services. Features may connect to the services you choose to use. The About-page download counter requests aggregate public release metadata from GitHub; it does not identify active users, though GitHub receives ordinary network request metadata such as the device's IP address.
 
-```bash
-./gradlew assembleUniversalFossDebug
-```
+## Contributing and support
 
-## Application configuration
+Bug reports and feature requests are welcome through [GitHub Issues](https://github.com/kryvexo/MAX-STUDIO-/issues). Before opening an issue, check whether it has already been reported. For code contributions, see [CONTRIBUTING.md](CONTRIBUTING.md) and follow the project conventions.
 
-Important Android configuration values:
+See the [contributors page](https://github.com/kryvexo/MAX-STUDIO-/graphs/contributors) and the source notices for project contributors and dependency attributions. MAX STUDIO also acknowledges the open-source work of [Metrolist](https://github.com/MetrolistGroup/Metrolist), [Vivi Music](https://github.com/vivizzz007/vivi-music), [ArchiveTune](https://github.com/koiverse/ArchiveTune), [Better Lyrics](https://better-lyrics.boidu.dev/), [SimpMusic](https://github.com/maxrave-dev/SimpMusic), [Music Recognizer](https://github.com/aleksey-saenko/MusicRecognizer), and [BravePipe](https://github.com/bravepipeproject/BravePipe). Each project remains subject to its own license and notices.
 
-```text
-Application ID: com.max.music
-App name: MAX STUDIO
-GitHub releases: https://github.com/kryvexo/MAX-STUDIO-/releases
-```
+## License
 
-When publishing a new release:
-
-1. Increase `versionCode` in `app/build.gradle.kts`.
-2. Update `versionName`.
-3. Build the signed release APK.
-4. Create a GitHub release with a matching tag such as `v1.5.0`.
-5. Upload the APK and `changelog.json`.
-6. Verify that the release asset URLs are publicly accessible.
-
-The version tag and `versionName` should match. For example:
-
-```text
-versionName = "1.5.0"
-GitHub tag = v1.5.0
-```
-
-## Google login
-
-Google/YouTube login uses a WebView-based authentication flow. The app clears the login WebView session, opens Google's ServiceLogin flow, reads the authenticated YouTube cookies, and validates the account before saving it locally.
-
-If login does not complete:
-
-- Check the device internet connection.
-- Make sure Chrome or Android System WebView is up to date.
-- Try opening the login screen again.
-- Do not clear the app's account data while a login attempt is running.
-
-## iOS status
-
-This repository currently contains the Android implementation only. It does not include a Swift, SwiftUI, Xcode, or iOS module.
-
-An iOS version would need a separate native SwiftUI implementation and Apple signing through Xcode. Android APK updates cannot be installed on iOS; iOS updates must be distributed through TestFlight or the App Store.
-
-## Project structure
-
-```text
-app/          Main Android application
-core/         Shared music and data-layer components
-playback/     Audio playback services
-innertube/    YouTube/InnerTube integration
-lyrics/       Lyrics-related functionality
-metadata/     Music metadata handling
-canvas/       Player visualizations and canvas components
-```
-
-## License and attribution
-
-Keep the original project license and attribution files included in this repository. Third-party libraries and services remain subject to their respective licenses and terms.
-
-Before distributing a public build, review the licenses, artwork rights, music-service terms, and platform requirements applicable to your release.
-
-## Support
-
-For MAX STUDIO project updates and release information, visit:
-
-- Website: https://maxown.c0m.in
-- GitHub: https://github.com/kryvexo/MAX-STUDIO-
-- Telegram: `@kryvexo`
-- Twitter/X: `@kryvexo`
-- Instagram: `@maxgotiissues`
+MAX STUDIO is distributed under the **GNU General Public License v3.0**. See the [LICENSE](LICENSE) file for the complete terms. Third-party components and assets may carry their own licenses.
