@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MAX STUDIO - Your music. Your flow. Your interface.</title>
+<meta name="description" content="MAX STUDIO is an open-source Android music app with synchronized lyrics, Listen Together rooms and a Liquid Glass interface.">
+<meta name="theme-color" content="#0b0a1f">
+<meta property="og:title" content="MAX STUDIO">
+<meta property="og:description" content="Your music. Your flow. Your interface.">
+<meta property="og:image" content="https://raw.githubusercontent.com/kryvexo/MAX-STUDIO-/main/SCREENSHOTS/Screenshot_2026-10-25-08-50-42-859_com.max.music.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0a1f; --text:#f5f3ff; --muted:rgba(245,243,255,.72);
+    --glass:rgba(255,255,255,.08); --glass-strong:rgba(255,255,255,.14);
+    --line:rgba(255,255,255,.22); --violet:#7c3aed; --cyan:#22d3ee; --pink:#ec4899; --blue:#3b82f6;
+    --radius:28px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Outfit','Poppins','Segoe UI',system-ui,sans-serif;
+    color:var(--text); background:var(--bg); min-height:100vh; overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* animated blurred blobs behind the glass */
+  .blobs{position:fixed;inset:0;z-index:-1;overflow:hidden;background:linear-gradient(135deg,#090818,#1b1245)}
+  .blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.75;animation:drift 22s ease-in-out infinite alternate}
+  .b1{width:46vmax;height:46vmax;background:var(--violet);top:-12vmax;left:-10vmax}
+  .b2{width:40vmax;height:40vmax;background:var(--cyan);bottom:-14vmax;right:-8vmax;animation-delay:-6s}
+  .b3{width:30vmax;height:30vmax;background:var(--pink);top:30vh;left:55vw;animation-delay:-11s;opacity:.55}
+  .b4{width:28vmax;height:28vmax;background:var(--blue);bottom:6vh;left:8vw;animation-delay:-3s;opacity:.55}
+  @keyframes drift{to{transform:translate(6vmax,-4vmax) scale(1.12)}}
+  @media (prefers-reduced-motion:reduce){.blob{animation:none}html{scroll-behavior:auto}}
+
+  .glass{
+    background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+    -webkit-backdrop-filter:blur(26px) saturate(180%); backdrop-filter:blur(26px) saturate(180%);
+    border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:0 18px 50px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.35);
+  }
+  .wrap{width:min(1120px,92vw);margin-inline:auto}
+
+  nav{position:sticky;top:14px;z-index:20;margin:14px auto 0;width:min(1120px,92vw);
+      display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-radius:999px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px;text-decoration:none;color:var(--text)}
+  .dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--glass-strong);border:1px solid var(--line)}
+  .dot svg{width:12px;height:12px}
+  nav .links{display:flex;gap:6px;align-items:center}
+  nav a.l{color:var(--muted);text-decoration:none;padding:8px 14px;border-radius:999px;font-weight:500;font-size:15px;transition:.2s}
+  nav a.l:hover{background:var(--glass-strong);color:#fff}
+  @media(max-width:640px){nav a.l.hide{display:none}}
+
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font:600 17px 'Outfit','Poppins','Segoe UI',system-ui,sans-serif;
+       text-decoration:none;color:#fff;border:1px solid var(--line);transition:transform .2s, background .2s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn.primary{background:linear-gradient(135deg,rgba(124,58,237,.95),rgba(34,211,238,.85));border-color:rgba(255,255,255,.4)}
+  .btn.ghost{background:var(--glass)}
+
+  header.hero{padding:70px 0 40px;text-align:center}
+  .hero .panel{padding:56px 28px 46px}
+  h1{font-size:clamp(44px,9vw,92px);font-weight:800;line-height:1;letter-spacing:1px;
+     background:linear-gradient(90deg,#fff,#e9ddff 55%,#a5f3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .tag{font-size:clamp(18px,3vw,26px);color:var(--muted);margin-top:14px}
+  .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+  .stats{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+  .pill{padding:10px 18px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-weight:500;font-size:15px;color:var(--muted)}
+  .pill b{color:#fff;font-weight:700;margin-left:6px}
+
+  section{padding:46px 0}
+  h2{font-size:clamp(28px,5vw,42px);font-weight:700;margin-bottom:8px}
+  .sub{color:var(--muted);margin-bottom:26px;font-size:18px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+  .card{padding:26px 24px}
+  .card .ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--glass-strong);
+            border:1px solid var(--line);font-size:21px;margin-bottom:14px}
+  .card h3{font-size:21px;font-weight:700;margin-bottom:6px}
+  .card p{color:var(--muted);font-size:16px;line-height:1.5}
+
+  .shots{display:flex;gap:16px;overflow-x:auto;padding:6px 4px 16px;scroll-snap-type:x mandatory}
+  .shots img{height:420px;width:auto;border-radius:24px;border:1px solid var(--line);scroll-snap-align:center;
+             box-shadow:0 18px 40px rgba(0,0,0,.4);background:var(--glass)}
+  .steps{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .step{padding:24px;position:relative}
+  .step:before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:36px;height:36px;border-radius:50%;
+               background:linear-gradient(135deg,var(--violet),var(--cyan));font-weight:700;margin-bottom:12px}
+  .step h3{font-size:19px;margin-bottom:4px}.step p{color:var(--muted);font-size:15.5px;line-height:1.5}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chips span{padding:10px 18px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font-weight:500}
+
+  footer{padding:30px 0 60px;text-align:center}
+  footer .panel{padding:38px 20px}
+  footer h2{background:linear-gradient(90deg,#fff,#a5f3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .links2{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  .small{color:var(--muted);font-size:14px;margin-top:22px;line-height:1.6}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    .glass{background:rgba(30,24,70,.85)}
+  }
+</style>
+</head>
+<body>
+<div class="blobs" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div></div>
+
+<nav class="glass" aria-label="Main">
+  <a class="brand" href="#top"><span class="dot"><svg viewBox="0 0 12 12"><path d="M2 1 L11 6 L2 11Z" fill="#fff"/></svg></span>MAX STUDIO</a>
+  <div class="links">
+    <a class="l hide" href="#features">Features</a>
+    <a class="l hide" href="#listen">Listen Together</a>
+    <a class="l hide" href="#screens">Screens</a>
+    <a class="l" href="https://github.com/kryvexo/MAX-STUDIO-" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</nav>
+
+<header class="hero wrap" id="top">
+  <div class="glass panel reveal">
+    <h1>MAX STUDIO</h1>
+    <p class="tag">Your music. Your flow. Your interface.</p>
+    <div class="cta">
+      <a class="btn primary" id="dl" href="https://github.com/kryvexo/MAX-STUDIO-/releases/latest" target="_blank" rel="noopener">⬇ Download APK</a>
+      <a class="btn ghost" href="https://github.com/kryvexo/MAX-STUDIO-" target="_blank" rel="noopener">★ Star on GitHub</a>
+    </div>
+    <div class="stats" aria-live="polite">
+      <span class="pill">Latest<b id="s-ver">…</b></span>
+      <span class="pill">Downloads<b id="s-dl">…</b></span>
+      <span class="pill">Stars<b id="s-star">…</b></span>
+      <span class="pill">Updated<b id="s-date">…</b></span>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="features" class="wrap">
+  <h2 class="reveal">Everything you need to listen</h2>
+  <p class="sub reveal">A customizable Android music experience built with Kotlin and Jetpack Compose.</p>
+  <div class="grid">
+    <div class="glass card reveal"><div class="ic">🎧</div><h3>Flexible playback</h3><p>Crossfade, gapless, skip silence, tempo and pitch, equalizer, sleep timer and offline downloads.</p></div>
+    <div class="glass card reveal"><div class="ic">📝</div><h3>Synced lyrics</h3><p>Follow lyrics from multiple sources with several display styles and translation support.</p></div>
+    <div class="glass card reveal"><div class="ic">🤝</div><h3>Listen Together</h3><p>Real-time rooms with instant join, shared queue and live chat.</p></div>
+    <div class="glass card reveal"><div class="ic">🔎</div><h3>Echo Find</h3><p>Recognize songs playing around you and add them to your library.</p></div>
+    <div class="glass card reveal"><div class="ic">🪟</div><h3>Liquid Glass UI</h3><p>Material 3 with glass effects, ambient mode, themes, fonts and custom launcher icons.</p></div>
+    <div class="glass card reveal"><div class="ic">🔗</div><h3>Integrations</h3><p>Last.fm, ListenBrainz, Spotify import, Discord Rich Presence and Google Cast on the GMS build.</p></div>
+  </div>
+</section>
+
+<section id="screens" class="wrap">
+  <h2 class="reveal">See it in action</h2>
+  <p class="sub reveal">Screens from the latest builds.</p>
+  <div class="shots reveal">
+    <img loading="lazy" alt="Home screen with Music Flow" src="https://raw.githubusercontent.com/kryvexo/MAX-STUDIO-/main/SCREENSHOTS/Screenshot_2026-10-25-08-50-42-859_com.max.music.jpg">
+    <img loading="lazy" alt="About screen" src="https://raw.githubusercontent.com/kryvexo/MAX-STUDIO-/main/SCREENSHOTS/Screenshot_2026-10-25-08-51-13-101_com.max.music.jpg">
+    <img loading="lazy" alt="Update settings" src="https://raw.githubusercontent.com/kryvexo/MAX-STUDIO-/main/SCREENSHOTS/Screenshot_2026-10-25-08-51-18-838_com.max.music.jpg">
+    <img loading="lazy" alt="Landscape player with synchronized lyrics" src="https://raw.githubusercontent.com/kryvexo/MAX-STUDIO-/main/SCREENSHOTS/Screenshot_2026-10-25-08-50-59-825_com.max.music.jpg">
+  </div>
+</section>
+
+<section id="listen" class="wrap">
+  <h2 class="reveal">Listen Together</h2>
+  <p class="sub reveal">Everyone hears the same track at the same time.</p>
+  <div class="steps">
+    <div class="glass step reveal"><h3>Create a room</h3><p>Open Listen Together and start a room. You become the host.</p></div>
+    <div class="glass step reveal"><h3>Share the code</h3><p>Send the room code, invite link or QR code to your friends.</p></div>
+    <div class="glass step reveal"><h3>Join instantly</h3><p>Friends join right away with no approval step.</p></div>
+    <div class="glass step reveal"><h3>Play and chat</h3><p>Playback, queue and chat stay in sync for the whole room.</p></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2 class="reveal">Built with</h2>
+  <div class="chips reveal">
+    <span>Kotlin</span><span>Jetpack Compose</span><span>Material 3</span><span>Media3</span><span>Room</span><span>Hilt</span><span>Ktor</span><span>Cloudflare Workers</span>
+  </div>
+</section>
+</main>
+
+<footer class="wrap">
+  <div class="glass panel reveal">
+    <h2>Developed by MAX</h2>
+    <div class="links2">
+      <a class="btn ghost" href="https://t.me/kryvexo" target="_blank" rel="noopener">Telegram @kryvexo</a>
+      <a class="btn ghost" href="https://instagram.com/maxgotiissues" target="_blank" rel="noopener">Instagram @maxgotiissues</a>
+      <a class="btn ghost" href="https://maxown.online" target="_blank" rel="noopener">maxown.online</a>
+    </div>
+    <p class="small">MAX STUDIO is open source under GNU GPL v3.0. It is an independent project and is not affiliated with YouTube, Google, Spotify, Apple or other third-party services. It does not host music or video files.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var REPO = 'kryvexo/MAX-STUDIO-';
+  var $ = function (id) { return document.getElementById(id); };
+  var fmt = function (n) { return n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, '') + 'k' : String(n); };
+
+  function count(el, to) {
+    var start = performance.now(), dur = 900;
+    (function tick(t) {
+      var p = Math.min(1, (t - start) / dur);
+      el.textContent = fmt(Math.round(to * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+
+  function apply(d) {
+    if (d.ver) $('s-ver').textContent = d.ver;
+    if (typeof d.downloads === 'number') count($('s-dl'), d.downloads);
+    if (typeof d.stars === 'number') count($('s-star'), d.stars);
+    if (d.date) $('s-date').textContent = d.date;
+    if (d.apk) $('dl').href = d.apk;
+  }
+
+  function get(url) {
+    return fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } }).then(function (r) {
+      if (!r.ok) throw new Error(r.status); return r.json();
+    });
+  }
+
+  var cached = null;
+  try { cached = JSON.parse(sessionStorage.getItem('maxstudio-live') || 'null'); } catch (e) {}
+  if (cached && Date.now() - cached.t < 10 * 60 * 1000) { apply(cached.d); }
+  else {
+    Promise.all([
+      get('https://api.github.com/repos/' + REPO),
+      get('https://api.github.com/repos/' + REPO + '/releases?per_page=100')
+    ]).then(function (res) {
+      var repo = res[0], rels = res[1], total = 0, latest = rels.find(function (r) { return !r.draft && !r.prerelease; }) || rels[0];
+      rels.forEach(function (r) { (r.assets || []).forEach(function (a) { total += a.download_count || 0; }); });
+      var apk = latest && (latest.assets || []).find(function (a) { return /\.apk$/i.test(a.name); });
+      var d = {
+        ver: latest ? latest.tag_name : '',
+        downloads: total,
+        stars: repo.stargazers_count,
+        date: latest ? new Date(latest.published_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : '',
+        apk: apk ? apk.browser_download_url : ''
+      };
+      try { sessionStorage.setItem('maxstudio-live', JSON.stringify({ t: Date.now(), d: d })); } catch (e) {}
+      apply(d);
+    }).catch(function () {
+      ['s-ver', 's-dl', 's-star', 's-date'].forEach(function (id) { $(id).textContent = '–'; });
+    });
+  }
+
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .12 }) : null;
+  document.querySelectorAll('.reveal').forEach(function (el) { io ? io.observe(el) : el.classList.add('in'); });
+})();
+</script>
+</body>
+</html>
