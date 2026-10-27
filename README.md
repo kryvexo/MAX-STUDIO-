@@ -42,7 +42,7 @@
 
 ## Overview
 
-**MAX STUDIO** is an open-source Android music app built around flexible listening and deep personalization. Explore music, play local tracks, follow synchronized lyrics, listen together with friends in real time, and shape the interface to your own style.
+**MAX STUDIO** is an free Android music app built around flexible listening and deep personalization. Explore music, play local tracks, follow synchronized lyrics, listen together with friends in real time, and shape the interface to your own style.
 
 <img src="ms-features.svg" alt="Playback, Lyrics, Listen Together and Personalization" width="100%" />
 
